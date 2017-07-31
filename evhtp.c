@@ -3733,6 +3733,7 @@ evhtp_bind_sockaddr(evhtp_t * htp, struct sockaddr * sa, size_t sin_len, int bac
     do {
         if ((fd = socket(sa->sa_family, SOCK_STREAM, 0)) == -1)
         {
+            fprintf(stderr, "could not open socket\n");
             return -1;
         }
 
@@ -3742,11 +3743,13 @@ evhtp_bind_sockaddr(evhtp_t * htp, struct sockaddr * sa, size_t sin_len, int bac
 
         if (setsockopt(fd, SOL_SOCKET, SO_KEEPALIVE, (void *)&on, sizeof(on)) == -1)
         {
+            fprintf(stderr, "could not make socket keepalive\n");
             break;
         }
 
         if (setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, (void *)&on, sizeof(on)) == -1)
         {
+            fprintf(stderr, "could not make socket SO_REUSEADDR\n");
             break;
         }
 
@@ -3760,6 +3763,7 @@ evhtp_bind_sockaddr(evhtp_t * htp, struct sockaddr * sa, size_t sin_len, int bac
 
         if (bind(fd, sa, sin_len) == -1)
         {
+            fprintf(stderr, "could not bind socket\n");
             break;
         }
 
