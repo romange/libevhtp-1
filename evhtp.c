@@ -3763,7 +3763,10 @@ evhtp_bind_sockaddr(evhtp_t * htp, struct sockaddr * sa, size_t sin_len, int bac
 
         if (bind(fd, sa, sin_len) == -1)
         {
-            fprintf(stderr, "could not bind socket\n");
+            char buf[512];
+
+            strerror_r(errno, buf, sizeof(buf));
+            fprintf(stderr, "could not bind socket %s\n", buf);
             break;
         }
 
